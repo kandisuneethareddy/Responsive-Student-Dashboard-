@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduBoard – Student Progress Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* ====== GENERAL STYLES ====== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      display: flex;
+      min-height: 100vh;
+      background-color: #f5f8ff;
+      color: #333;
+    }
+
+    /* ====== SIDEBAR ====== */
+    nav {
+      width: 230px;
+      background: #ec008c;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #fc6767, #ec008c);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #fc6767, #ec008c); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    nav h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 32px;
+      background: #BA8B02;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #181818, #BA8B02);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #181818, #BA8B02); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+      
+    
+    }
+
+    nav a {
+      text-decoration: none;
+      color: white;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    background: #536976;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #292E49, #536976);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #292E49, #536976); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    }
+
+    nav a:hover {
+      background: #55e629;
+    }
+
+    /* ====== MAIN AREA ====== */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: white;
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+   background: #757F9A;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #D7DDE8, #757F9A);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #D7DDE8, #757F9A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    }
+
+    header .profile {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    header img {
+      width: 80%;
+      height: 50px;
+      border-radius: 60%;
+      object-fit: cover;
+     background: #603813;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #b29f94, #603813);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #b29f94, #603813); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    }
+
+    /* ====== DASHBOARD CONTENT ====== */
+    .dashboard {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+   background: #3E5151;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #DECBA4, #3E5151);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #DECBA4, #3E5151); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    }
+
+    /* Cards Section */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-align: center;
+     background: #30E8BF;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #b87e5b, #964d8a);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #e09027, #eba117); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    }
+
+    .card h3 {
+      font-size: 16px;
+      color: #555;
+      font-weight: bold;
+    }
+
+    .card p {
+      font-size: 24px;
+      font-weight: bold;
+      color: #0d45df;
+      margin-top: 5px;
+    }
+
+    /* Progress Table */
+    section#progress table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    background: #70e1f5;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #ffd194, #654f74);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #ffd194, #7c5b9b); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    }
+
+    table th, table td {
+      padding: 15px;
+      text-align: left;
+      font-weight: bold;
+      color:rgb(139, 43, 83)
+    }
+
+    table th {
+      background: #6fd2fa;
+      
+      font-weight: bold;
+    }
+
+    .progress-bar {
+      height: 10px;
+      border-radius: 5px;
+      background: #b2cfd4;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background: #0c5f11;
+    
+    }
+
+    /* Deadlines Section */
+    section#deadlines {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      background: #3CA55C;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #B5AC49, #3CA55C);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #B5AC49, #3CA55C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    }
+
+    .deadline-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+      font-weight: bold;
+      color:rgb(80, 31, 39)
+    }
+
+    .badge {
+      background: #bb6e16;
+      color: white;
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+
+    /* Profile Section */
+    section#profile {
+      background: rgb(184, 130, 130);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 20px;
+    background: #2C3E50;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #4CA1AF, #2C3E50);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #4CA1AF, #2C3E50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    }
+
+    section#profile img {
+      width: 200px;
+      height: 200px;
+      border-radius: 40%;
+      object-fit: cover;
+      color:#0c5f11
+          }
+
+    section#profile .info {
+      flex:1;
+    }
+
+    section#profile .info p {
+      margin-bottom: 16px;
+      color: #0a0a09;
+      font-weight: bold;
+    }
+
+    /* ====== RESPONSIVE ====== */
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+      }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <nav>
+    <h2>EduBoard</h2>
+    <a href="#"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+    <a href="#"><i class="fa-solid fa-book"></i> Subjects</a>
+    <a href="#"><i class="fa-solid fa-calendar-check"></i> Attendance</a>
+    <a href="#"><i class="fa-solid fa-user"></i> Profile</a>
+    <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+    <a href="#"><i class="fa-solid fa-right-from-bracket"></i> LogOut</a>
+  </nav>
+
+  <main>
+    <header>
+      <h1>Welcome,kandi Sunitha</h1>
+      <div class="profile">
+        <i class="fa-regular fa-bell fa-lg"></i>
+        <img src="https://image2url.com/images/1761634598726-5b8175c0-8260-4c88-be6d-88c0cba62451.jpeg" alt="Profile Photo">
+      </div>
+    </header>
+
+    <div class="dashboard">
+
+      <!-- Overview Cards -->
+      <section class="cards">
+        <article class="card">
+          <h3>GPA</h3>
+          <p>8.9</p>
+        </article>
+        <article class="card">
+          <h3>Attendance</h3>
+          <p>92%</p>
+        </article>
+        <article class="card">
+          <h3>Assignments Due</h3>
+          <p>4</p>
+        </article>
+        <article class="card">
+          <h3>Total Credits</h3>
+          <p>56</p>
+        </article>
+      </section>
+
+      <!-- Progress Table -->
+      <section id="progress">
+        <h2>Subject Progress</h2>
+        <table>
+          <thead>
+            <tr>
+             <h1><th>Subject</th>
+              <th>Completion</th></h1> 
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Python Programming</td>
+              <td><div class="progress-bar"><div class="progress" style="width: 80%;"></div></div></td>
+            </tr>
+            <tr>
+              <td>HTML</td>
+              <td><div class="progress-bar"><div class="progress" style="width: 97%;"></div></div></td>
+            </tr>
+             <tr>
+              <td>CSS</td>
+              <td><div class="progress-bar"><div class="progress" style="width: 94%;"></div></div></td>
+            </tr>
+            <tr>
+              <td>Bootstrap</td>
+              <td><div class="progress-bar"><div class="progress" style="width: 90%;"></div></div></td>
+            </tr>
+            <tr>
+              <td>English</td>
+              <td><div class="progress-bar"><div class="progress" style="width: 86%;"></div></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Deadlines -->
+      <section id="deadlines">
+        <h2>Upcoming Deadlines</h2><br>
+        <div class="deadline-item">
+          <span>Math Assignment 4</span>
+          <span class="badge">Oct 30</span>
+        </div>
+        <div class="deadline-item">
+          <span>Computer Networks Mid-2</span>
+          <span class="badge">Nov 2</span>
+        </div>
+        <div class="deadline-item">
+          <span>Data wareHousing and data Mining Lab Report</span>
+          <span class="badge">Nov 6</span>
+        </div>
+        <div class="deadline-item">
+          <span>Community Service Project Submission</span>
+          <span class="badge">Nov 15</span>
+        </div>
+      </section>
+
+      <!-- Profile -->
+      <section id="profile">
+       
+        <div class="info">
+          <h2>Student Profile</h2><br>
+          <p><strong>Name:</strong> Kandi Sunitha</p>
+          <p><strong>Roll No:</strong>238A1A05E5</p>
+          <p><strong>Email:</strong>238A1A05E5@risekrishnasaiprakasam.edu.in</p>
+          <p><strong>College:</strong>RISE Krishna sai Prakasam Group of Institutions</p>
+          <p><strong>Department:</strong> Computer Science and Engineering Engineering</p>
+        </div>
+        <section id="profile">
+        <img src="https://image2url.com/images/1761634598726-5b8175c0-8260-4c88-be6d-88c0cba62451.jpeg">
+        </section>
+      </section>
+
+    </div>
+  </main>
+</body>
+</html>
